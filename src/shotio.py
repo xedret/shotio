@@ -43,7 +43,7 @@ class ShotIO( object ) :
   #self.sg = shotgun_api3.Shotgun( self.sg_url, login=self.sg_user, password=self.__sg_pass )
 
  def __write_env( self, key, value ) :
-  with open( '.env', 'a' ) as f :
+  with open( self.location + '\\.env', 'a' ) as f :
    f.write( key + '=' + value )
    #f.write( 'username=John' )
    #f.write( 'email=abc@gmail.com' )
@@ -59,6 +59,11 @@ class ShotIO( object ) :
    os.environ.update( vars_dict )
   except FileNotFoundError :
    self.__survey()
+   self.__load_env()
+   self.__fio_token = os.environ.get( 'FRAME_IO_TOKEN' ) or os.environ.get( 'FIO_TOKEN' )
+   self.sg_url = os.environ.get( 'SG_URL' )
+   self.sg_user = os.environ.get( 'SG_USER' )
+   self.__sg_pass = os.environ.get( 'SG_PASS' )
   except Exception as e:
    print( 'Error related to the .env file' )
    raise e # Could not read env file
