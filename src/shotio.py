@@ -14,7 +14,6 @@ __status__ = "beta"
 
 from frameioclient import FrameioClient
 #from dotenv import load_dotenv
-# test
 import os
 import sys
 import getpass
