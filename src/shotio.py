@@ -44,7 +44,7 @@ class ShotIO( object ) :
 
  def __write_env( self, key, value ) :
   with open( self.location + '\\.env', 'a' ) as f :
-   f.write( key + '=' + value )
+   f.write( key + '=' + value + '\n')
    #f.write( 'username=John' )
    #f.write( 'email=abc@gmail.com' )
    #f.write( 'email=abc@gmail.com' )
