@@ -43,7 +43,7 @@ class ShotIO( object ) :
   #self.sg = shotgun_api3.Shotgun( self.sg_url, login=self.sg_user, password=self.__sg_pass )
 
  def __write_env( self, key, value ) :
-  with open( '.env', 'w' ) as f :
+  with open( '.env', 'a' ) as f :
    f.write( key + '=' + value )
    #f.write( 'username=John' )
    #f.write( 'email=abc@gmail.com' )
@@ -64,7 +64,7 @@ class ShotIO( object ) :
    raise e # Could not read env file
 
  def __input( self, question ) :
-  error_stack = 0
+  #error_stack = 0
   while True:
    try :
     response = input( question )
@@ -75,7 +75,7 @@ class ShotIO( object ) :
     continue
 
  def __getpass( self, question ) :
-  error_stack = 0
+ #error_stack = 0
   while True:
    try :
     response = getpass.getpass( prompt=question )
@@ -96,11 +96,6 @@ class ShotIO( object ) :
    self.__write_env( 'SG_USER', sg_user )
    sg_pass = self.__getpass( "Please enter your Shotgun password (hidden): " )
    self.__write_env( 'SG_PASS', sg_pass )
-   self.__load_env()
-   self.__fio_token = os.environ.get( 'FRAME_IO_TOKEN' ) or os.environ.get( 'FIO_TOKEN' )
-   self.sg_url = os.environ.get( 'SG_URL' )
-   self.sg_user = os.environ.get( 'SG_USER' )
-   self.__sg_pass = os.environ.get( 'SG_PASS' )
    print( "Entered all parameters " )
   else :
    sys.exit( "Exiting program, missing required environment variables." )
