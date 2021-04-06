@@ -42,11 +42,12 @@ class ShotIO( object ) :
   #self.fio = FrameioClient( self.__fio_token )
   #self.sg = shotgun_api3.Shotgun( self.sg_url, login=self.sg_user, password=self.__sg_pass )
 
- def __write_env( self ) :
+ def __write_env( self, key, value ) :
   with open( '.env', 'w' ) as f :
-   f.write( 'username=John' )
-   f.write( 'email=abc@gmail.com' )
-   f.write( 'email=abc@gmail.com' )
+   f.write( key + '=' + value )
+   #f.write( 'username=John' )
+   #f.write( 'email=abc@gmail.com' )
+   #f.write( 'email=abc@gmail.com' )
 
  def __load_env( self ) :
   try :
@@ -55,7 +56,7 @@ class ShotIO( object ) :
      tuple( line.replace( "\n", '' ).split( '=' ) )
      for line in env.readlines() if not line.startswith( '#' )
     )
-   os.environ.update( vars_dict ) 
+   os.environ.update( vars_dict )
   except FileNotFoundError :
    self.__survey()
   except Exception as e:
@@ -88,9 +89,18 @@ class ShotIO( object ) :
   print( "I was unable to locate the .env file at " + self.location + "\\.env" )
   if ( ( input( "Would you like to create a .env file now? [Y] / [n]" ) or 'y').lower() == 'y' ) :
    fio_token = self.__input( "Please enter your Frame.io token: " )
+   self.__write_env( 'FRAME_IO_TOKEN', fio_token )
    sg_url = self.__input( "Please enter your Shotgun url (e.g. https://subdomain.shotgunstudio.com): " )
+   self.__write_env( 'SG_URL', sg_url )
    sg_user = self.__input( "Please enter your Shotgun username: " )
+   self.__write_env( 'SG_USER', sg_user )
    sg_pass = self.__getpass( "Please enter your Shotgun password (hidden): " )
+   self.__write_env( 'SG_PASS', sg_pass )
+   self.__load_env()
+   self.__fio_token = os.environ.get( 'FRAME_IO_TOKEN' ) or os.environ.get( 'FIO_TOKEN' )
+   self.sg_url = os.environ.get( 'SG_URL' )
+   self.sg_user = os.environ.get( 'SG_USER' )
+   self.__sg_pass = os.environ.get( 'SG_PASS' )
    print( "Entered all parameters " )
   else :
    sys.exit( "Exiting program, missing required environment variables." )
