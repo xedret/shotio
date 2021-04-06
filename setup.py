@@ -1,6 +1,6 @@
 from setuptools import setup
 
-def _post_install()
+def _post_install() :
  pass
 
 setup(
