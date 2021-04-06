@@ -106,5 +106,5 @@ class ShotIO( object ) :
   print( self.__sg_pass )
   print( "Location: " + self.location )
 
-sgio = ShotIO()
-sgio.test()
+#sgio = ShotIO()
+#sgio.test()
