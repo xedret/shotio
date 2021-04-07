@@ -30,18 +30,18 @@ class ShotIO( object ) :
   #load_dotenv()
   self.location = os.path.dirname( os.path.realpath( __file__ ) )
   self.__load_env()
-  self.__fio_token = os.environ.get( 'FRAME_IO_TOKEN' ) or os.environ.get( 'FIO_TOKEN' )
-  self.sg_url = os.environ.get( 'SG_URL' )
-  self.sg_user = os.environ.get( 'SG_USER' )
-  self.__sg_pass = os.environ.get( 'SG_PASS' )
+  #self.__fio_token = os.environ.get( 'FRAME_IO_TOKEN' ) or os.environ.get( 'FIO_TOKEN' )
+  #self.sg_url = os.environ.get( 'SG_URL' )
+  #self.sg_user = os.environ.get( 'SG_USER' )
+  #self.__sg_pass = os.environ.get( 'SG_PASS' )
 
   #if self.__fio_token is None :
   # print( 'I was unable to get a Frame.io Token from your .env file or your environment variables' )
   # thing = input( 'Please paste it here or edit the .env file located at' )
   
-  #self.fio = FrameioClient( self.__fio_token )
-  #self.sg = shotgun_api3.Shotgun( self.sg_url, login=self.sg_user, password=self.__sg_pass )
-
+  self.fio = FrameioClient( self.__fio_token )
+  self.sg = shotgun_api3.Shotgun( self.sg_url, login=self.sg_user, password=self.__sg_pass )
+ 
  def __write_env( self, key, value ) :
   with open( self.location + '\\.env', 'a' ) as f :
    f.write( key + '=' + value + '\n')
@@ -54,6 +54,10 @@ class ShotIO( object ) :
      for line in env.readlines() if not line.startswith( '#' )
     )
    os.environ.update( vars_dict )
+   self.__fio_token = os.environ.get( 'FRAME_IO_TOKEN' ) or os.environ.get( 'FIO_TOKEN' )
+   self.sg_url = os.environ.get( 'SG_URL' )
+   self.sg_user = os.environ.get( 'SG_USER' )
+   self.__sg_pass = os.environ.get( 'SG_PASS' )
   except FileNotFoundError :
    self.__survey()
   except Exception as e:
@@ -94,19 +98,15 @@ class ShotIO( object ) :
    sg_pass = self.__getpass( "Please enter your Shotgun password (hidden): " )
    self.__write_env( 'SG_PASS', sg_pass )
    self.__load_env()
-   self.__fio_token = os.environ.get( 'FRAME_IO_TOKEN' ) or os.environ.get( 'FIO_TOKEN' )
-   self.sg_url = os.environ.get( 'SG_URL' )
-   self.sg_user = os.environ.get( 'SG_USER' )
-   self.__sg_pass = os.environ.get( 'SG_PASS' )
    print( "Entered all parameters " )
   else :
    sys.exit( "Exiting program, missing required environment variables." )
 
  def test( self ) :
   """Testing method"""
-  #me = self.fio.get_me()
-  #print( me[ 'id' ] )
-  #print( self.sg._connection )
+  me = self.fio.get_me()
+  print( me[ 'id' ] )
+  print( self.sg._connection )
   print( self.__fio_token )
   print( self.sg_url )
   print( self.sg_user )
