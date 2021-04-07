@@ -102,6 +102,34 @@ class ShotIO( object ) :
   else :
    sys.exit( "Exiting program, missing required environment variables." )
 
+ def getTeamsFromAccount( self, client):
+  """
+  Builds a list of teams for the account.
+  """
+  acct = client.get_me()
+  acct_id = acct['account_id']
+  return client.get_teams(acct_id)
+ 
+ def getProjectsFromTeam( self, client, team):
+  """Returns a list of projects for a team."""
+  projects_in_team = []
+  data = client.get_projects(team.get('id'))
+  team_name = team.get('name')
+  for proj in data:
+   proj['project_name'] = proj.get('name')
+   proj['team_name'] = team_name
+   projects_in_team.append(proj)
+  return projects_in_team
+ 
+ def getProjectsFromAccount( self, client):
+  """Gets projects from all teams in the account."""
+  projects_in_account = []
+  teams = self.getTeamsFromAccount(client)
+  for team in teams:
+   projects_in_team = ( self.getProjectsFromTeam( client, team ) )
+   projects_in_account.extend(projects_in_team)
+  return projects_in_account
+
  def test( self ) :
   """Testing method"""
   me = self.fio.get_me()
