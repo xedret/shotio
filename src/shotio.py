@@ -45,9 +45,6 @@ class ShotIO( object ) :
  def __write_env( self, key, value ) :
   with open( self.location + '\\.env', 'a' ) as f :
    f.write( key + '=' + value + '\n')
-   #f.write( 'username=John' )
-   #f.write( 'email=abc@gmail.com' )
-   #f.write( 'email=abc@gmail.com' )
 
  def __load_env( self ) :
   try :
@@ -59,11 +56,6 @@ class ShotIO( object ) :
    os.environ.update( vars_dict )
   except FileNotFoundError :
    self.__survey()
-   self.__load_env()
-   self.__fio_token = os.environ.get( 'FRAME_IO_TOKEN' ) or os.environ.get( 'FIO_TOKEN' )
-   self.sg_url = os.environ.get( 'SG_URL' )
-   self.sg_user = os.environ.get( 'SG_USER' )
-   self.__sg_pass = os.environ.get( 'SG_PASS' )
   except Exception as e:
    print( 'Error related to the .env file' )
    raise e # Could not read env file
@@ -101,6 +93,11 @@ class ShotIO( object ) :
    self.__write_env( 'SG_USER', sg_user )
    sg_pass = self.__getpass( "Please enter your Shotgun password (hidden): " )
    self.__write_env( 'SG_PASS', sg_pass )
+   self.__load_env()
+   self.__fio_token = os.environ.get( 'FRAME_IO_TOKEN' ) or os.environ.get( 'FIO_TOKEN' )
+   self.sg_url = os.environ.get( 'SG_URL' )
+   self.sg_user = os.environ.get( 'SG_USER' )
+   self.__sg_pass = os.environ.get( 'SG_PASS' )
    print( "Entered all parameters " )
   else :
    sys.exit( "Exiting program, missing required environment variables." )
