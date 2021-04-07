@@ -30,14 +30,12 @@ class ShotIO( object ) :
   #load_dotenv()
   self.location = os.path.dirname( os.path.realpath( __file__ ) )
   self.__load_env()
-  #self.__fio_token = os.environ.get( 'FRAME_IO_TOKEN' ) or os.environ.get( 'FIO_TOKEN' )
-  #self.sg_url = os.environ.get( 'SG_URL' )
-  #self.sg_user = os.environ.get( 'SG_USER' )
-  #self.__sg_pass = os.environ.get( 'SG_PASS' )
 
-  #if self.__fio_token is None :
-  # print( 'I was unable to get a Frame.io Token from your .env file or your environment variables' )
-  # thing = input( 'Please paste it here or edit the .env file located at' )
+  if self.__fio_token is None :
+   print( 'I was unable to get a Frame.io Token from your .env file or your environment variables' )
+   thing = input( 'Please paste it here or edit the .env file located at' )
+   self.__write_env( 'FRAME_IO_TOKEN', thing )
+   self.__load_env()
   
   self.fio = FrameioClient( self.__fio_token )
   self.sg = shotgun_api3.Shotgun( self.sg_url, login=self.sg_user, password=self.__sg_pass )
