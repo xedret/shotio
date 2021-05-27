@@ -3,7 +3,7 @@
 
 __author__ = "Dexter Scott Belmont"
 __copyright__ = "Copyright 2021, Boxel LLC"
-__credits__ = [ "Dexter Scott Belmont" ]
+__credits__ = [ "Dexter Scott Belmont", "Benny Carbajal" ]
 __tags__ = [ "Boxel", "Shotgun", "Frame.io" ]
 __license__ = "GPL"
 __version__ = "0.1"
